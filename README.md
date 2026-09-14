@@ -36,6 +36,12 @@ Question → Hypothesis → Reproducible Experiment → Measurement → Conclusi
 
 실패한 가설도 보존합니다. 결과를 재현할 수 있고 다음 판단에 도움이 된다면 의미 있는 기록으로 취급합니다.
 
+## 도구
+
+- [SB Packer](tools/sb-packer/README.md), 파일을 EXE에 드롭해 같은 폴더에 `.sb` 바이너리 컨테이너로 저장하는 도구
+
+재사용하는 개발 도구는 `tools/`에 모은다. 기존 Python benchmark runner는 현재 `experiments/python/benchmark-runner/`에 있으며, 기존 실험과 문서의 폴더는 아직 이동하지 않았다.
+
 ## 실험
 
 ### Game development and graphics
@@ -54,6 +60,7 @@ Question → Hypothesis → Reproducible Experiment → Measurement → Conclusi
 ## 저장소 구조
 
 ```text
+tools/         여러 프로젝트에서 재사용하는 개발 도구
 experiments/   실행 가능한 실험 코드, 설정, 원시 측정 결과
 questions/     토론을 거쳐 검증한 질문과 결론
 ```
