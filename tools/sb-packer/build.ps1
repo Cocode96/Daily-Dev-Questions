@@ -9,9 +9,9 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Build dependency installation failed.' }
     & ./.venv/Scripts/python.exe -m unittest discover -s tests -v
     if ($LASTEXITCODE -ne 0) { throw 'Tests failed.' }
-    & ./.venv/Scripts/python.exe -m PyInstaller --noconfirm --clean --onefile --console --noupx --name SBPacker sb_packer.py
+    & ./.venv/Scripts/python.exe -m PyInstaller --noconfirm --clean --onefile --console --noupx --name BinaryPacker sb_packer.py
     if ($LASTEXITCODE -ne 0) { throw 'EXE build failed.' }
-    Write-Output "Built: $PSScriptRoot/dist/SBPacker.exe"
+    Write-Output "Built: $PSScriptRoot/dist/BinaryPacker.exe"
 }
 finally {
     Pop-Location

@@ -70,10 +70,10 @@ def pack_file(path: str | Path) -> Path:
 
 def main(arguments: list[str]) -> int:
     if not arguments:
-        print("SB Packer - 파일을 .sb 형식으로 저장합니다.")
-        print("파일을 하나 또는 여러 개 선택해 SBPacker.exe 아이콘 위에 놓으세요.")
+        print("Binary Packer - 파일을 .sb 형식으로 저장합니다.")
+        print("파일을 하나 또는 여러 개 선택해 BinaryPacker.exe 아이콘 위에 놓으세요.")
         print("결과는 원본과 같은 폴더에 저장됩니다. 원본은 유지됩니다.")
-        print("사용법: SBPacker.exe 파일경로 [파일경로 ...]")
+        print("사용법: BinaryPacker.exe 파일경로 [파일경로 ...]")
         return 0
 
     failures = 0
