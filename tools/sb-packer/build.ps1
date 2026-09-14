@@ -1,8 +1,10 @@
 $ErrorActionPreference = 'Stop'
 Push-Location $PSScriptRoot
 try {
-    & uv venv --python 3.13 --allow-existing .venv
-    if ($LASTEXITCODE -ne 0) { throw 'Python environment setup failed.' }
+    if (-not (Test-Path -LiteralPath .venv/Scripts/python.exe)) {
+        & uv venv --python 3.13 .venv
+        if ($LASTEXITCODE -ne 0) { throw 'Python environment setup failed.' }
+    }
     & uv pip install --python .venv/Scripts/python.exe -r requirements-build.txt
     if ($LASTEXITCODE -ne 0) { throw 'Build dependency installation failed.' }
     & ./.venv/Scripts/python.exe -m unittest discover -s tests -v
