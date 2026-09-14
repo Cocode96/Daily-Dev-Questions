@@ -1,10 +1,10 @@
-# SB Packer
+# Binary Packer
 
-파일을 `SBPacker.exe` 아이콘 위에 놓으면 원본과 같은 폴더에 `.sb` 파일을 만든다. 파일 종류를 해석하지 않고 원본 바이트에 파일명과 크기 정보를 붙여 저장하는 작은 도구다. SB는 Seok Binary의 약자로 사용한다.
+파일을 `BinaryPacker.exe` 아이콘 위에 놓으면 원본과 같은 폴더에 `.sb` 파일을 만든다. 파일 종류를 해석하지 않고 원본 바이트에 파일명과 크기 정보를 붙여 저장하는 작은 도구다. SB는 Seok Binary의 약자로 사용한다.
 
 ## 사용 방법
 
-빌드한 `dist/SBPacker.exe`를 원하는 위치에 두고 파일 하나 또는 여러 개를 EXE 아이콘 위로 드래그한다. Python을 별도로 설치하지 않은 Windows x64 컴퓨터에서도 실행할 수 있도록 패키징했다.
+빌드한 `dist/BinaryPacker.exe`를 원하는 위치에 두고 파일 하나 또는 여러 개를 EXE 아이콘 위로 드래그한다. Python을 별도로 설치하지 않은 Windows x64 컴퓨터에서도 실행할 수 있도록 패키징했다.
 
 ```text
 입력: C:\Assets\image.png
@@ -21,7 +21,7 @@
 명령줄에서도 실행할 수 있다.
 
 ```powershell
-.\SBPacker.exe "C:\Assets\image.png" "C:\Assets\설정 파일.json"
+& ".\BinaryPacker.exe" "C:\Assets\image.png" "C:\Assets\설정 파일.json"
 ```
 
 이 버전에는 복원, 압축, 암호화 기능이 없다. 원본 파일도 이미 바이트로 저장되어 있으며, 이 도구는 자체 컨테이너 형식을 추가한다. 텍스트를 넣으면 본문의 텍스트 바이트가 그대로 포함되고, 이미지는 디코딩하거나 엔진용 리소스로 변환하지 않는다. 출력 크기는 원본보다 16바이트와 UTF-8 파일명 길이만큼 커진다.
@@ -34,7 +34,7 @@ Windows x64와 `uv`가 필요하다. 이 폴더에서 실행하면 Python 3.13 �
 .\build.ps1
 ```
 
-결과는 `dist/SBPacker.exe`에 생성된다. 가상 환경, 빌드 임시 파일과 EXE는 Git에 포함하지 않는다. EXE 패키징에는 [PyInstaller의 one-file 옵션](https://pyinstaller.org/en/stable/usage.html)을 사용한다.
+결과는 `dist/BinaryPacker.exe`에 생성된다. 가상 환경, 빌드 임시 파일과 EXE는 Git에 포함하지 않는다. EXE 패키징에는 [PyInstaller의 one-file 옵션](https://pyinstaller.org/en/stable/usage.html)을 사용한다.
 
 소스 실행과 테스트는 다음과 같다.
 
