@@ -1,18 +1,22 @@
 $ErrorActionPreference = 'Stop'
-Push-Location $PSScriptRoot
-try {
-    if (-not (Test-Path -LiteralPath .venv/Scripts/python.exe)) {
-        & uv venv --python 3.13 .venv
-        if ($LASTEXITCODE -ne 0) { throw 'Python environment setup failed.' }
-    }
-    & uv pip install --python .venv/Scripts/python.exe -r requirements-build.txt
-    if ($LASTEXITCODE -ne 0) { throw 'Build dependency installation failed.' }
-    & ./.venv/Scripts/python.exe -m unittest discover -s tests -v
-    if ($LASTEXITCODE -ne 0) { throw 'Tests failed.' }
-    & ./.venv/Scripts/python.exe -m PyInstaller --noconfirm --clean --onefile --console --noupx --name BinaryPacker sb_packer.py
-    if ($LASTEXITCODE -ne 0) { throw 'EXE build failed.' }
-    Write-Output "Built: $PSScriptRoot/dist/BinaryPacker.exe"
-}
-finally {
-    Pop-Location
-}
+$vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
+$installation = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+if (-not $installation) { throw 'Visual Studio C++ build tools are required.' }
+$msbuild = Join-Path $installation 'MSBuild/Current/Bin/MSBuild.exe'
+& $msbuild "$PSScriptRoot/BinaryPacker.sln" /m /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
+if ($LASTEXITCODE -ne 0) { throw 'Release x64 build failed.' }
+$executable = Join-Path $PSScriptRoot 'build/x64/Release/BinaryPacker.exe'
+& "$PSScriptRoot/tests/Verify.ps1" -Executable $executable
+
+$version = (Get-Item -LiteralPath $executable).VersionInfo.ProductVersion
+$dist = Join-Path $PSScriptRoot 'dist'
+$package = Join-Path $dist "BinaryPacker-v$version-win64"
+New-Item -ItemType Directory -Path $package -Force | Out-Null
+Copy-Item -LiteralPath $executable -Destination "$dist/BinaryPacker.exe" -Force
+Copy-Item -LiteralPath $executable -Destination "$package/BinaryPacker.exe" -Force
+Copy-Item -LiteralPath "$PSScriptRoot/README.md" -Destination "$package/README.md" -Force
+Compress-Archive -Path "$package/*" -DestinationPath "$package.zip" -Force
+$hash = (Get-FileHash -LiteralPath "$package.zip" -Algorithm SHA256).Hash
+"$hash  $([IO.Path]::GetFileName($package)).zip" | Set-Content -LiteralPath "$dist/SHA256SUMS.txt" -Encoding ascii
+Write-Output "Release: $dist/BinaryPacker.exe"
+Write-Output "Package: $package.zip"
