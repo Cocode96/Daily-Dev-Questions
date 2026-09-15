@@ -38,7 +38,7 @@ Question → Hypothesis → Reproducible Experiment → Measurement → Conclusi
 
 ## 도구
 
-- [Binary Packer](https://github.com/Cocode96/BinaryPacker), 파일을 EXE에 드롭해 같은 폴더에 `.sb` 바이너리 컨테이너로 저장하는 독립 C++ 도구. [실행 파일 다운로드](https://github.com/Cocode96/BinaryPacker/releases/latest)
+- [Binary Packer](tools/sb-packer/README.md), 파일을 EXE에 드롭해 같은 폴더에 `.sb` 바이너리 컨테이너로 저장하는 C++ 도구. [실행 파일 다운로드](https://github.com/Cocode96/Dev-Exploration-Lab/releases/tag/binary-packer-v1.1.0)
 
 재사용하는 개발 도구는 `tools/`에 모은다. 기존 Python benchmark runner는 현재 `experiments/python/benchmark-runner/`에 있으며, 기존 실험과 문서의 폴더는 아직 이동하지 않았다.
 
